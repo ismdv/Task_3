@@ -6,9 +6,8 @@ import org.openqa.selenium.WebDriver;
 
 public class ForgotPasswordPage {
     WebDriver driver;
+
     private By entryButton = By.xpath(".//a[@href='/login']");
-
-
 
     public ForgotPasswordPage(WebDriver driver) {
         this.driver = driver;
@@ -17,6 +16,5 @@ public class ForgotPasswordPage {
     @Step("clickEntryButton")
     public void clickEntryButton() {
         driver.findElement(entryButton).click();
-
     }
 }

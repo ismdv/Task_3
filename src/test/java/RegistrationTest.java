@@ -1,4 +1,6 @@
+import api.UserApi;
 import io.qameta.allure.Description;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,11 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RegistrationTest {
 
     private WebDriver driver;
+    private String accessToken;
 
     @BeforeEach
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(ofSeconds(10));
+        RestAssured.baseURI = "https://stellarburgers.education-services.ru/";
     }
 
 
@@ -33,11 +37,11 @@ public class RegistrationTest {
         mainPage.clickEntryButton();
         loginPage.clickRegButton();
         registerPage.insertName(NAME);
-        registerPage.insertEmail(EMAIL_REG);
+        registerPage.insertEmail(EMAIL);
         registerPage.insertPassword(PASSWORD);
         registerPage.clickRegButton();
         assertEquals("Вход", loginPage.entryText());
-
+        accessToken = registerPage.getAccessToken(EMAIL, PASSWORD);
     }
 
     @Test
@@ -60,6 +64,9 @@ public class RegistrationTest {
     @AfterEach
     public void tearDown() {
         driver.quit();
+        if (accessToken != null) {
+            UserApi userApi = new UserApi();
+            userApi.sendDeleteRequest(accessToken);
+        }
     }
-
 }

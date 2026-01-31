@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+
 public class MainPage {
 
     private String url = "https://stellarburgers.education-services.ru/";
@@ -19,14 +20,9 @@ public class MainPage {
     private By createBurgerText = By.xpath(".//h1[text()='Соберите бургер']");
 
 
-    private By bunsButton = By.xpath("//div[.//span[contains(text(),'Булки')]]");
-    private By sauseButton = By.xpath("//div[.//span[contains(text(),'Соусы')]]");
-    private By fillingButton = By.xpath("//div[.//span[contains(text(),'Начинки')]]");
-
-    private By textBuns = By.xpath(".//h2[text()='Булки']");
-    private By textSause = By.xpath(".//h2[text()='Соусы']");
-    private By textFilling = By.xpath(".//h2[text()='Начинки']");
-
+    private By bunsButton = By.xpath(".//section[1]/div[1]/div[1][.//span[text()='Булки']]");
+    private By sauseButton = By.xpath(".//section[1]/div[1]/div[2][.//span[text()='Соусы']]");
+    private By fillingButton = By.xpath(".//section[1]/div[1]/div[3][.//span[text()='Начинки']]");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -42,7 +38,8 @@ public class MainPage {
         driver.findElement(entryButton).click();
 
     }
-    @Step("lickUserButton")
+
+    @Step("clickUserButton")
     public void clickUserButton() {
         driver.findElement(userCabinet).click();
 
@@ -67,20 +64,23 @@ public class MainPage {
     public void clickFillingButton() {
         driver.findElement(fillingButton).click();
     }
-    @Step("isTextBunsDisplayed")
-    public boolean isTextBunsDisplayed() {
-       return driver.findElement(textBuns).isDisplayed();
-    }
-    @Step("isTextSauseDisplayed")
-    public boolean isTextSauseDisplayed() {
-        return driver.findElement(textSause).isDisplayed();
-    }
-    @Step("isTextFillingDisplayed")
-    public boolean isTextFillingDisplayed() {
-        return driver.findElement(textFilling).isDisplayed();
-    }
 
 
+    @Step("isClassBunsContains")
+    public boolean isClassBunsContains(String str) {
+        return driver.findElement(bunsButton).getDomAttribute("class").contains(str);
+
+    }
+
+    @Step("isClassSauseContains")
+    public boolean isClassSausContains(String str) {
+        return driver.findElement(sauseButton).getDomAttribute("class").contains(str);
+    }
+
+    @Step("isClassFillingContains")
+    public boolean isClassFillingContains(String str) {
+        return driver.findElement(fillingButton).getDomAttribute("class").contains(str);
+    }
 
 
 }

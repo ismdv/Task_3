@@ -1,6 +1,9 @@
 package pageobject;
 
+import api.User;
+import api.UserApi;
 import io.qameta.allure.Step;
+import io.restassured.response.Response;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,8 +12,6 @@ import java.util.List;
 
 public class RegisterPage {
     WebDriver driver;
-
-    // Кнопка зарегистрироваться
 
     private By regButtonFinal = By.xpath(".//button[@class='button_button__33qZ0 button_button_type_primary__1O7Bx button_button_size_medium__3zxIa'" +
             " and text()='Зарегистрироваться']");
@@ -32,7 +33,6 @@ public class RegisterPage {
     @Step("insertName")
     public void insertName(String name) {
         driver.findElement(nameInput).sendKeys(name);
-
     }
 
     @Step("insertEmail")
@@ -49,7 +49,6 @@ public class RegisterPage {
     @Step("clickRegButton")
     public void clickRegButton() {
         driver.findElement(regButtonFinal).click();
-
     }
 
     @Step("getTextError")
@@ -60,7 +59,14 @@ public class RegisterPage {
     @Step("clickEntryFooter")
     public void clickEntryFooter() {
         driver.findElement(entryFooter).click();
+    }
 
+    @Step
+    public String getAccessToken(String email, String password) {
+        User user = new User(email, password, null);
+        UserApi userApi = new UserApi();
+        Response response = userApi.sendPostRequestAuth(user);
+        return response.path("accessToken").toString();
     }
 
 }

@@ -8,11 +8,8 @@ public class UserCabinet {
 
     WebDriver driver;
 
-
     private By textMessage = By.xpath(".//p[text()='В этом разделе вы можете изменить свои персональные данные']");
-    //родитель[.//дочерний_элемент[text()='нужный текст']]
     private By toConstrButton = By.xpath("//a[.//p[contains(text(),'Конструктор')]]");
-
     private By label = By.xpath(".//a[@href = '/']");
     private By exitButton = By.xpath(".//button[text()='Выход']");
 
@@ -24,25 +21,21 @@ public class UserCabinet {
     @Step("getTextMessage")
     public String getTextMessage() {
         return driver.findElement(textMessage).getText();
-
     }
 
     @Step("clickConstrButton")
     public void clickConstrButton() {
         driver.findElement(toConstrButton).click();
-
     }
 
     @Step("clickLabel")
     public void clickLabel() {
         driver.findElement(label).click();
-
     }
 
     @Step("clickExit")
     public void clickExit() {
         driver.findElement(exitButton).click();
-
     }
 
 
